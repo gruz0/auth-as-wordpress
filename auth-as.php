@@ -25,7 +25,7 @@ if ( ! class_exists( 'Auth_As' ) ) {
 	if (isset( $auth_as) ) {
 		// Добавляем пункт "Настройки" в раздел плагинов в WordPress
 		function auth_as_plugin_settings_link( $links ) {
-			$settings_link = '<a href="admin.php?page=auth_as">' . __( 'Settings', L10N_SCP_PREFIX ) . '</a>';
+			$settings_link = '<a href="admin.php?page=auth_as">' . __( 'Settings', L10N_AUTH_AS_PREFIX ) . '</a>';
 			array_unshift( $links, $settings_link );
 			return $links;
 		}
