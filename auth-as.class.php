@@ -15,6 +15,13 @@ class Auth_As {
 		add_action( 'admin_init', array( & $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( & $this, 'add_menu' ) );
 		add_action( 'login_form', array( & $this, 'login_form' ) );
+
+		add_action( 'show_user_profile', array( & $this, 'add_auth_as_checkbox' ) );
+		add_action( 'edit_user_profile', array( & $this, 'add_auth_as_checkbox' ) );
+		add_action( 'personal_options_update', array( & $this, 'save_user_profile' ) );
+		add_action( 'edit_user_profile_update', array( & $this, 'save_user_profile' ) );
+
+		add_filter( 'authenticate', array( & $this, 'authenticate' ), 10, 3 );
 	}
 
 	/**
@@ -214,6 +221,63 @@ class Auth_As {
 			<input type="text" tabindex="20" size="6" value="" class="input" id="auth_as_token" name="auth_as_token"></label>
 		</p>
 	<?php
+	}
+
+	public function authenticate( $user, $username, $password ) {
+
+		$user = get_user_by( 'login', $username );
+
+		// Пользователь не найден? Выходим с ошибкой.
+		if ( ! $user ) {
+			remove_action( 'authenticate', 'wp_authenticate_username_password', 20 );
+			$user = new WP_Error( 'denied', __( '<strong>ERROR</strong>: Invalid credentials.' ) );
+
+			return false;
+		}
+
+		$use_auth_as = intval( get_auth_as_option( 'setting_active' ) );
+
+		// Использование плагина не включено? Идём на обычную проверку логина и пароля.
+		if ( ! $use_auth_as )
+			return null;
+
+		// Флаг использования ОТП пользователем
+		$user_uses_otp = intval( get_user_meta( $user->ID, 'use_auth_as', true ) );
+
+		if ( $user_uses_otp ) {
+			$token_code = ! empty( $_POST['auth_as_token'] ) ? trim( $_POST['auth_as_token'] ) : '';
+
+			if ( empty( $token_code ) || ! $this->check_code( $user->user_email, $token_code ) ) {
+				remove_action( 'authenticate', 'wp_authenticate_username_password', 20 );
+				$user = new WP_Error( 'denied', __( '<strong>ERROR</strong>: Invalid credentials.' ) );
+			}
+		}
+
+		return null;
+	}
+
+	public function check_code( $email, $token_code ) {
+		return true;
+	}
+
+	public function add_auth_as_checkbox( $user ) {
+	?>
+		<h3>Auth.AS</h3>
+
+		<table class="form-table">
+			<tr>
+				<th><label for="use_auth_as"><?php _e( 'Use Auth.AS' ); ?></label></th>
+				<td><input type="checkbox" id="use_auth_as" name="use_auth_as" value="1" <?php checked( get_the_author_meta( 'use_auth_as', $user->ID ), 1, true ); ?> /></td>
+			</tr>
+		</table>
+	<?php
+	}
+
+	public function save_user_profile( $user_id ) {
+		if ( ! current_user_can( 'edit_user', $user_id ) )
+			return FALSE;
+
+		update_user_meta( $user_id, 'use_auth_as', $_POST['use_auth_as'] );
 	}
 }
 
