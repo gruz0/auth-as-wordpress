@@ -14,6 +14,7 @@ class Auth_As {
 		add_action( 'init', array( & $this, 'localization' ) );
 		add_action( 'admin_init', array( & $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( & $this, 'add_menu' ) );
+		add_action( 'login_form', array( & $this, 'login_form' ) );
 	}
 
 	/**
@@ -204,6 +205,15 @@ class Auth_As {
 		}
 
 		include( sprintf( "%s/templates/settings.php", dirname( __FILE__ ) ) );
+	}
+
+	public function login_form() {
+	?>
+		<p>
+			<label for="auth_as_token"><?php _e( 'Auth.AS Token Code' ); ?><br>
+			<input type="text" tabindex="20" size="6" value="" class="input" id="auth_as_token" name="auth_as_token"></label>
+		</p>
+	<?php
 	}
 }
 
