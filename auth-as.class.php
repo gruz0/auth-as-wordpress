@@ -95,7 +95,7 @@ class Auth_As {
 			update_option( AUTH_AS_PREFIX . 'setting_remove_settings_on_uninstall',  0 );
 			update_option( AUTH_AS_PREFIX . 'setting_active',  0 );
 			update_option( AUTH_AS_PREFIX . 'setting_api_url', 'https://console.auth.as/api/v1.0/check_code' );
-			update_option( AUTH_AS_PREFIX . 'setting_active',  '' );
+			update_option( AUTH_AS_PREFIX . 'setting_api_key',  '' );
 
 			update_option( $version, '0.1' );
 		}
