@@ -71,10 +71,22 @@ class Auth_As {
 			'setting_active',
 			'setting_api_url',
 			'setting_api_key',
+
+			// Прочие настройки
+			'setting_remove_settings_on_uninstall',
 		);
 
 		for ( $idx = 0; $idx < count( $options ); $idx++ ) {
 			delete_option( AUTH_AS_PREFIX . $options[ $idx ] );
+		}
+
+		// Удаляем мета-данные пользователей
+		$user_query = new WP_User_Query( array( 'role' => 'Administrator', 'search_columns' => array( 'id' ) ) );
+
+		if ( ! empty( $user_query->results ) ) {
+			foreach ( $user_query->results as $user ) {
+				delete_user_meta( $user->id, 'use_auth_as' );
+			}
 		}
 	}
 
