@@ -257,7 +257,41 @@ class Auth_As {
 	}
 
 	public function check_code( $email, $token_code ) {
-		return true;
+		$api_url = get_auth_as_option( 'setting_api_url' );
+		$api_key = get_auth_as_option( 'setting_api_key' );
+
+		if ( empty( $api_url ) || empty( $api_key ) ) return false;
+
+		$data = array(
+			'api_key' => $api_key,
+			'email'   => $email,
+			'code'    => $token_code
+		);
+
+		$params = http_build_query( $data );
+
+		if( function_exists( 'curl_init' ) ) {
+
+			$curl = curl_init();
+			curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, false );
+			curl_setopt( $curl, CURLOPT_HEADER, false );
+			curl_setopt( $curl, CURLOPT_URL, $api_url );
+			curl_setopt( $curl, CURLOPT_REFERER, get_bloginfo( 'url' ) );
+			curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $curl, CURLOPT_CONNECTTIMEOUT, 10 );
+			curl_setopt( $curl, CURLOPT_POSTFIELDS, $params );
+
+			$result = curl_exec( $curl );
+
+			curl_close( $curl );
+
+			if ( ! $result )
+				return false;
+
+			return ( intval( $result ) == 200 );
+		}
+
+		return false;
 	}
 
 	public function add_auth_as_checkbox( $user ) {
