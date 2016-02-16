@@ -3,14 +3,18 @@ defined( 'ABSPATH' ) or exit;
 
 require_once( dirname( __FILE__ ) . "/functions.php" );
 
+/**
+ * @since 0.1
+ */
 class Auth_As {
-
 	/**
-	 * Конструктор
+	 * Constructor
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function __construct() {
-
-		// Register action
 		add_action( 'init', array( & $this, 'localization' ) );
 		add_action( 'admin_init', array( & $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( & $this, 'add_menu' ) );
@@ -25,7 +29,11 @@ class Auth_As {
 	}
 
 	/**
-	 * Активация плагина
+	 * Activate plugin
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public static function activate() {
 		if ( ! current_user_can( 'activate_plugins' ) ) return;
@@ -34,14 +42,22 @@ class Auth_As {
 	}
 
 	/**
-	 * Деактивация плагина
+	 * Deactivate plugin
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public static function deactivate() {
 		if ( ! current_user_can( 'activate_plugins' ) ) return;
 	}
 
 	/**
-	 * Деинсталляция плагина
+	 * Uninstall plugin
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public static function uninstall() {
 		if ( ! current_user_can( 'activate_plugins' ) ) return;
@@ -63,7 +79,11 @@ class Auth_As {
 	}
 
 	/**
-	 * Обновление плагина
+	 * Upgrade plugin
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public static function upgrade() {
 		$version = AUTH_AS_PREFIX . 'version';
@@ -82,21 +102,35 @@ class Auth_As {
 	}
 
 	/**
-	 * Подключаем локализацию к плагину
+	 * Adds localization
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function localization() {
 		load_plugin_textdomain( L10N_AUTH_AS_PREFIX, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	/**
-	 * Hook into WP's admin_init action hook
+	 * Hook into WP's admin_init action
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function admin_init() {
 		$this->init_settings_main( 'auth_as' );
 	}
 
 	/**
-	 * Общие настройки
+	 * Main settings
+	 *
+	 * @param string $prefix Settings prefix
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function init_settings_main( $prefix ) {
 
@@ -166,14 +200,22 @@ class Auth_As {
 	}
 
 	/**
-	 * Описание общих настроек
+	 * Describe main settings section
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function settings_section_main() {
 		_e( 'Main settings description', L10N_AUTH_AS_PREFIX );
 	}
 
 	/**
-	 * Callback-шаблон для формирования текстового поля на странице настроек
+	 * Callback-template to show textbox field in settings page
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function settings_field_input_text( $args ) {
 		$field = esc_attr( $args[ 'field' ] );
@@ -182,7 +224,11 @@ class Auth_As {
 	}
 
 	/**
-	 * Callback-шаблон для формирования чекбокса на странице настроек
+	 * Callback-template to show checkbox field in settings page
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function settings_field_checkbox( $args ) {
 		$field = esc_attr( $args[ 'field' ] );
@@ -191,7 +237,11 @@ class Auth_As {
 	}
 
 	/**
-	 * Добавление пункта меню
+	 * Adds menu item to main WordPress menu
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function add_menu() {
 		add_users_page(
@@ -204,7 +254,11 @@ class Auth_As {
 	}
 
 	/**
-	 * Страница общих настроек плагина
+	 * Render main settings page
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
 	 */
 	public function plugin_settings_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -214,6 +268,13 @@ class Auth_As {
 		include( sprintf( "%s/templates/settings.php", dirname( __FILE__ ) ) );
 	}
 
+	/**
+	 * Render plugin's fields to login form
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
+	 */
 	public function login_form() {
 	?>
 		<p>
@@ -223,8 +284,18 @@ class Auth_As {
 	<?php
 	}
 
+	/**
+	 * Authentication
+	 *
+	 * @param [null or WP_User or WP_Error] $user User's object
+	 * @param string $username Username (not email)
+	 * @param string $password Password
+	 *
+	 * @since 0.1
+	 *
+	 * @return [WP_Error or null] If error happens return WP_Errors otherwise return null
+	 */
 	public function authenticate( $user, $username, $password ) {
-
 		$user = get_user_by( 'login', $username );
 
 		// Пользователь не найден? Выходим с ошибкой.
@@ -256,6 +327,16 @@ class Auth_As {
 		return null;
 	}
 
+	/**
+	 * Try to check code in auth.as API
+	 *
+	 * @param string $email Email
+	 * @param string $token_code One-time password from login form
+	 *
+	 * @since 0.1
+	 *
+	 * @return boolean
+	 */
 	public function check_code( $email, $token_code ) {
 		$api_url = get_auth_as_option( 'setting_api_url' );
 		$api_key = get_auth_as_option( 'setting_api_key' );
@@ -271,7 +352,6 @@ class Auth_As {
 		$params = http_build_query( $data );
 
 		if( function_exists( 'curl_init' ) ) {
-
 			$curl = curl_init();
 			curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, false );
 			curl_setopt( $curl, CURLOPT_HEADER, false );
@@ -294,6 +374,15 @@ class Auth_As {
 		return false;
 	}
 
+	/**
+	 * Render "Use Auth.AS" checkbox in user profile
+	 *
+	 * @param WP_User $user User's object
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
+	 */
 	public function add_auth_as_checkbox( $user ) {
 	?>
 		<h3>Auth.AS</h3>
@@ -307,6 +396,15 @@ class Auth_As {
 	<?php
 	}
 
+	/**
+	 * Action to store plugin meta information in user's profile
+	 *
+	 * @param integer $user_id User ID
+	 *
+	 * @since 0.1
+	 *
+	 * @return void
+	 */
 	public function save_user_profile( $user_id ) {
 		if ( ! current_user_can( 'edit_user', $user_id ) )
 			return FALSE;
