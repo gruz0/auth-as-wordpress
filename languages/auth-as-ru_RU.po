@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Auth.AS Two-Factor Authentication Plugin\n"
-"POT-Creation-Date: 2016-02-16 17:55+0500\n"
-"PO-Revision-Date: 2016-02-16 18:02+0500\n"
+"POT-Creation-Date: 2016-02-17 16:07+0500\n"
+"PO-Revision-Date: 2016-02-17 16:08+0500\n"
 "Last-Translator: Alexander Gruzov <gruz0.mail@gmail.com>\n"
 "Language-Team: Alexander Gruzov <gruz0.mail@gmail.com>\n"
 "Language: ru_RU\n"
@@ -41,41 +41,37 @@ msgstr "Ключ API"
 msgid "Remove settings on uninstall"
 msgstr "Удалить настройки плагина при его удалении"
 
-#: auth-as.class.php:222
-msgid "Main settings description"
-msgstr ""
+#: auth-as.class.php:258 auth-as.class.php:398 templates/settings.php:8
+msgid "Two-Factor Authentication for WordPress"
+msgstr "Двухфакторная аутентификация для WordPress"
 
-#: auth-as.class.php:260 templates/settings.php:4
-msgid "Two-Factor Authentication via auth.as"
-msgstr "Двухфакторная аутентификация сервиса auth.as"
+#: auth-as.class.php:259
+msgid "Configure auth.as"
+msgstr "Настройка auth.as"
 
-#: auth-as.class.php:261
-msgid "Auth.AS Options"
-msgstr ""
-
-#: auth-as.class.php:277
+#: auth-as.class.php:275
 msgid "You do not have sufficient permissions to access this page."
 msgstr "Вы не имеете достаточно прав для доступа к этой странице."
 
-#: auth-as.class.php:293
-msgid "Auth.AS Token Code"
-msgstr ""
+#: auth-as.class.php:291
+msgid "One-Time Password"
+msgstr "Одноразовый пароль"
 
-#: auth-as.class.php:316 auth-as.class.php:335
+#: auth-as.class.php:314 auth-as.class.php:333
 msgid "<strong>ERROR</strong>: Invalid credentials."
 msgstr "<strong>ОШИБКА</strong>: Неверные данные"
 
-#: auth-as.class.php:404
-msgid "Use Auth.AS"
-msgstr ""
+#: auth-as.class.php:402
+msgid "Use auth.as"
+msgstr "Использовать auth.as"
 
 #: auth-as.php:28
 msgid "Settings"
 msgstr "Настройки"
 
 #. Plugin Name of the plugin/theme
-msgid "Auth.AS Two-Factor Authentication Plugin"
-msgstr ""
+msgid "Auth.AS Two-Factor Authentication"
+msgstr "Двухфакторная аутентификация от auth.as"
 
 #. Plugin URI of the plugin/theme
 #. Author URI of the plugin/theme
@@ -83,9 +79,12 @@ msgid "http://gruz0.ru/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Two-Factor Authentication for WordPress via auth.as"
-msgstr ""
+msgid "Two-Factor Authentication Plugin for WordPress"
+msgstr "Плагин двухфакторной аутентификации для WordPress"
 
 #. Author of the plugin/theme
 msgid "Alexander Gruzov"
 msgstr "Александр Грузов"
+
+#~ msgid "Two-Factor Authentication via auth.as"
+#~ msgstr "Двухфакторная аутентификация сервиса auth.as"
