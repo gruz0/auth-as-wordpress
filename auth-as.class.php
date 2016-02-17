@@ -395,11 +395,11 @@ class Auth_As {
 	 */
 	public function add_auth_as_checkbox( $user ) {
 	?>
-		<h3><?php _e('Two-Factor Authentication for WordPress'); ?></h3>
+		<h3><?php _e( 'Two-Factor Authentication for WordPress', L10N_AUTH_AS_PREFIX ); ?></h3>
 
 		<table class="form-table">
 			<tr>
-				<th><label for="use_auth_as"><?php _e( 'Use auth.as' ); ?></label></th>
+				<th><label for="use_auth_as"><?php _e( 'Use auth.as', L10N_AUTH_AS_PREFIX ); ?></label></th>
 				<td><input type="checkbox" id="use_auth_as" name="use_auth_as" value="1" <?php checked( get_the_author_meta( 'use_auth_as', $user->ID ), 1, true ); ?> /></td>
 			</tr>
 		</table>
