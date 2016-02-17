@@ -218,9 +218,7 @@ class Auth_As {
 	 *
 	 * @return void
 	 */
-	public function settings_section_main() {
-		_e( 'Main settings description', L10N_AUTH_AS_PREFIX );
-	}
+	public function settings_section_main() {}
 
 	/**
 	 * Callback-template to show textbox field in settings page
@@ -257,8 +255,8 @@ class Auth_As {
 	 */
 	public function add_menu() {
 		add_users_page(
-			__( 'Two-Factor Authentication via auth.as', L10N_AUTH_AS_PREFIX ), // Название пункта на его странице
-			__( 'Auth.AS Options', L10N_AUTH_AS_PREFIX ), // Пункт меню
+			__( 'Two-Factor Authentication for WordPress', L10N_AUTH_AS_PREFIX ), // Название пункта на его странице
+			__( 'Configure auth.as', L10N_AUTH_AS_PREFIX ), // Пункт меню
 			'administrator',
 			'auth_as',
 			array( & $this, 'plugin_settings_page' )
@@ -290,7 +288,7 @@ class Auth_As {
 	public function login_form() {
 	?>
 		<p>
-			<label for="auth_as_token"><?php _e( 'Auth.AS Token Code' ); ?><br>
+			<label for="auth_as_token"><?php _e( 'One-Time Password' ); ?><br>
 			<input type="text" tabindex="20" size="6" value="" class="input" id="auth_as_token" name="auth_as_token"></label>
 		</p>
 	<?php
@@ -387,7 +385,7 @@ class Auth_As {
 	}
 
 	/**
-	 * Render "Use Auth.AS" checkbox in user profile
+	 * Render "Use auth.as" checkbox in user profile
 	 *
 	 * @param WP_User $user User's object
 	 *
@@ -397,11 +395,11 @@ class Auth_As {
 	 */
 	public function add_auth_as_checkbox( $user ) {
 	?>
-		<h3>Auth.AS</h3>
+		<h3><?php _e('Two-Factor Authentication for WordPress'); ?></h3>
 
 		<table class="form-table">
 			<tr>
-				<th><label for="use_auth_as"><?php _e( 'Use Auth.AS' ); ?></label></th>
+				<th><label for="use_auth_as"><?php _e( 'Use auth.as' ); ?></label></th>
 				<td><input type="checkbox" id="use_auth_as" name="use_auth_as" value="1" <?php checked( get_the_author_meta( 'use_auth_as', $user->ID ), 1, true ); ?> /></td>
 			</tr>
 		</table>

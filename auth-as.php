@@ -1,9 +1,9 @@
 <?php
 defined( 'ABSPATH' ) or exit;
 /*
-Plugin Name: Auth.AS Two-Factor Authentication Plugin
+Plugin Name: Auth.AS Two-Factor Authentication
 Plugin URI: http://gruz0.ru/
-Description: Two-Factor Authentication for WordPress via auth.as
+Description: Two-Factor Authentication Plugin for WordPress
 Author: Alexander Gruzov
 Author URI: http://gruz0.ru/
 Text Domain: auth-as
